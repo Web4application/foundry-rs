@@ -237,15 +237,11 @@ pub enum MutationType {
 
     /// Injects assembly at function entry to dirty scratch space and memory beyond FMP.
     /// Catches code that assumes zero-initialized memory.
-    BrutalizeMemory {
-        injected_assembly: String,
-    },
+    BrutalizeMemory { injected_assembly: String },
 
     /// Injects assembly at function entry to misalign the free memory pointer.
     /// Catches code that assumes word-aligned memory pointers.
-    MisalignFreeMemoryPointer {
-        injected_assembly: String,
-    },
+    MisalignFreeMemoryPointer { injected_assembly: String },
 }
 
 impl Display for MutationType {
