@@ -234,6 +234,18 @@ pub enum MutationType {
         brutalized_arg: String,
         mutated_call: String,
     },
+
+    /// Injects assembly at function entry to dirty scratch space and memory beyond FMP.
+    /// Catches code that assumes zero-initialized memory.
+    BrutalizeMemory {
+        injected_assembly: String,
+    },
+
+    /// Injects assembly at function entry to misalign the free memory pointer.
+    /// Catches code that assumes word-aligned memory pointers.
+    MisalignFreeMemoryPointer {
+        injected_assembly: String,
+    },
 }
 
 impl Display for MutationType {
@@ -251,6 +263,10 @@ impl Display for MutationType {
             Self::RequireCondition { mutated_call } => write!(f, "{mutated_call}"),
 
             Self::Brutalized { mutated_call, .. } => write!(f, "{mutated_call}"),
+            Self::BrutalizeMemory { injected_assembly } => write!(f, "{injected_assembly}"),
+            Self::MisalignFreeMemoryPointer { injected_assembly } => {
+                write!(f, "{injected_assembly}")
+            }
 
             Self::FunctionCall
             | Self::Require
